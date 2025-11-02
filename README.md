@@ -35,6 +35,69 @@ A high-performance [TensorFlow Lite](https://www.tensorflow.org/lite) library fo
 3. (Optional) If you want to enable the GPU Delegate, see ["Using GPU Delegates"](#using-gpu-delegates) down below.
 4. Run your app (`yarn android` / `npx pod-install && yarn ios`)
 
+## New Architecture Compatibility
+
+react-native-fast-tflite **fully supports** React Native's New Architecture on both iOS and Android.
+
+### Configuration
+
+The library automatically adapts to your architecture configuration. You can enable or disable the New Architecture as needed:
+
+**To Enable New Architecture:**
+
+**Android** (`android/gradle.properties`):
+```properties
+newArchEnabled=true
+```
+
+**iOS** (`ios/Podfile`):
+```ruby
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
+
+# ... rest of your Podfile
+```
+
+**To Use Old Architecture:**
+
+**Android** (`android/gradle.properties`):
+```properties
+newArchEnabled=false
+```
+
+**iOS** (`ios/Podfile`):
+```ruby
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
+# ... rest of your Podfile
+```
+
+### Library Compatibility
+
+The library works seamlessly with other libraries regardless of their architecture support:
+
+- ✅ Supports both Old and New Architecture
+- ✅ Compatible with MMKV v2.x (Old Architecture) and v3.x/v4.x (New Architecture)
+- ✅ Works with VisionCamera and other modern React Native libraries
+- ✅ Fully functional on both physical devices and emulators
+
+### Migration Notes
+
+If you're migrating from a version that didn't support the New Architecture:
+
+1. **Update your dependencies**: Ensure you're using the latest version of react-native-fast-tflite
+2. **Enable New Architecture**: Follow the configuration steps above
+3. **Test thoroughly**: Verify all TensorFlow Lite operations work as expected
+4. **Rebuild**: Clean and rebuild your app after changing architecture settings:
+   ```bash
+   # iOS
+   cd ios && pod install && cd ..
+   yarn ios
+   
+   # Android
+   cd android && ./gradlew clean && cd ..
+   yarn android
+   ```
+
 ## Usage
 
 1. Find a TensorFlow Lite (`.tflite`) model you want to use. There's thousands of public models on [tfhub.dev](https://tfhub.dev).

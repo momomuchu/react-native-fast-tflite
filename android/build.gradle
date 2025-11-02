@@ -108,6 +108,20 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
+  sourceSets {
+    main {
+      if (isNewArchitectureEnabled()) {
+        java.srcDirs += [
+          "src/newarch/java",
+          // Codegen-generated Java files (also supports projects with Kotlin)
+          "${project.buildDir}/generated/source/codegen/java"
+        ]
+      } else {
+        java.srcDirs += ["src/oldarch/java"]
+      }
+    }
+  }
+
   configurations {
     extractHeaders
     extractSO
