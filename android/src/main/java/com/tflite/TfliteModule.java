@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import com.facebook.proguard.annotations.DoNotStrip;
 import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.turbomodule.core.CallInvokerHolderImpl;
@@ -29,7 +28,7 @@ import okhttp3.Response;
 
 /** @noinspection JavaJniMissingFunction*/
 @ReactModule(name = TfliteModule.NAME)
-public class TfliteModule extends ReactContextBaseJavaModule {
+public class TfliteModule extends TfliteModuleSpec {
   public static final String NAME = "Tflite";
   private static WeakReference<ReactApplicationContext> weakContext;
   private static final OkHttpClient client = new OkHttpClient();
