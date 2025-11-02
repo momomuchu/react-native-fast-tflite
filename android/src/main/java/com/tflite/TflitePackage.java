@@ -31,7 +31,14 @@ public class TflitePackage extends TurboReactPackage {
   public ReactModuleInfoProvider getReactModuleInfoProvider() {
     return () -> {
       final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
-      boolean isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+      // BuildConfig.IS_NEW_ARCHITECTURE_ENABLED is set by build.gradle when compiling
+      boolean isTurboModule;
+      try {
+        isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+      } catch (Exception e) {
+        // Fallback to false if BuildConfig is not available
+        isTurboModule = false;
+      }
       moduleInfos.put(
         TfliteModule.NAME,
         new ReactModuleInfo(
