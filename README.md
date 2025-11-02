@@ -35,6 +35,69 @@ A high-performance [TensorFlow Lite](https://www.tensorflow.org/lite) library fo
 3. (Optional) If you want to enable the GPU Delegate, see ["Using GPU Delegates"](#using-gpu-delegates) down below.
 4. Run your app (`yarn android` / `npx pod-install && yarn ios`)
 
+## New Architecture Compatibility
+
+> [!IMPORTANT]
+> **react-native-fast-tflite does NOT currently support React Native's New Architecture** due to serious codegen issues. You must use the Old Architecture for both iOS and Android.
+
+### Required Configuration
+
+To use react-native-fast-tflite, you **must** disable the New Architecture on both platforms:
+
+**Android** (`android/gradle.properties`):
+```properties
+newArchEnabled=false
+```
+
+**iOS** (`ios/Podfile`):
+```ruby
+# Ensure old architecture is used
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
+# ... rest of your Podfile
+```
+
+### Known Issues
+
+- **Codegen problems**: The library has fundamental issues with React Native's codegen system
+- **iOS build failures**: Builds fail when `newArchEnabled=true` (see [#87](https://github.com/mrousavy/react-native-fast-tflite/issues/87), [#133](https://github.com/mrousavy/react-native-fast-tflite/issues/133))
+- **Android compatibility**: New Architecture is not stable on Android either
+
+### Library Compatibility Considerations
+
+If you need to use other libraries that require the New Architecture (e.g., `react-native-mmkv` v3.x/v4.x):
+
+**Option 1: Use Old Architecture Compatible Versions**
+
+For MMKV, use version 2.x which supports the Old Architecture:
+
+```json
+{
+  "dependencies": {
+    "react-native-mmkv": "^2.12.2"
+  }
+}
+```
+
+> [!NOTE]
+> When using MMKV v2.x on Android with Old Architecture, you may encounter debugging limitations:
+> - Chrome DevTools debugging is not available (requires JSI debugger)
+> - Use Flipper for debugging or `console.log` statements
+> - Physical devices work normally
+
+**Option 2: Alternative Libraries**
+
+Consider using alternative ML libraries with better New Architecture support:
+- **[@react-native-ml-kit](https://github.com/infinitered/react-native-mlkit)**: Better New Architecture support, but limited to pre-integrated models
+- **Custom native modules**: Direct TensorFlow Lite integration in Swift/Kotlin for full control
+
+**Option 3: Wait for New Architecture Support**
+
+The library is in maintenance mode. New Architecture support may come from:
+- Community contributions
+- Future maintainer updates
+- You can track progress in issues [#87](https://github.com/mrousavy/react-native-fast-tflite/issues/87) and [#133](https://github.com/mrousavy/react-native-fast-tflite/issues/133)
+
 ## Usage
 
 1. Find a TensorFlow Lite (`.tflite`) model you want to use. There's thousands of public models on [tfhub.dev](https://tfhub.dev).
