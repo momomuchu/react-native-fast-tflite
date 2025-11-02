@@ -35,8 +35,8 @@ public class TflitePackage extends TurboReactPackage {
       boolean isTurboModule;
       try {
         isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-      } catch (Exception e) {
-        // Fallback to false if BuildConfig is not available
+      } catch (NoSuchFieldError | IllegalAccessError e) {
+        // Fallback to false if BuildConfig field is not available
         isTurboModule = false;
       }
       moduleInfos.put(

@@ -113,7 +113,7 @@ android {
       if (isNewArchitectureEnabled()) {
         java.srcDirs += [
           "src/newarch/java",
-          // This is needed to build Kotlin project
+          // Codegen-generated Java files (also supports projects with Kotlin)
           "${project.buildDir}/generated/source/codegen/java"
         ]
       } else {
